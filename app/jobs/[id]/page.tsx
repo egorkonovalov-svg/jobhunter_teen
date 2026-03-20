@@ -135,12 +135,18 @@ export default async function JobDetailPage({ params }: Props) {
               </div>
             </div>
 
-            <a
-              href={`mailto:${job.contact_info.includes('@') ? job.contact_info : ''}`}
-              className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors"
-            >
-              Откликнуться
-            </a>
+            {job.contact_info.includes('@') ? (
+              <a
+                href={`mailto:${job.contact_info.trim()}`}
+                className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors"
+              >
+                Откликнуться по email
+              </a>
+            ) : (
+              <div className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold opacity-90 select-all cursor-pointer text-sm text-center">
+                {job.contact_info}
+              </div>
+            )}
 
             <p className="text-xs text-gray-400 mt-3 text-center">
               Свяжитесь с работодателем напрямую

@@ -35,7 +35,10 @@ export default function PostJobPage() {
     async function loadProfile() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) {
+        router.push('/auth/login')
+        return
+      }
 
       const { data } = await supabase
         .from('profiles')
@@ -44,6 +47,10 @@ export default function PostJobPage() {
         .single()
 
       if (data) {
+        if (data.role !== 'employer') {
+          router.push('/?message=only_employers')
+          return
+        }
         setProfile(data)
         if (data.company_name) setCompany(data.company_name)
         if (data.city) setCity(data.city)

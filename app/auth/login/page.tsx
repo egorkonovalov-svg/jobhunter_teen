@@ -15,7 +15,8 @@ function LoginForm() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/'
+  const raw = searchParams.get('redirectTo') ?? '/'
+  const redirectTo = raw.startsWith('/') && !raw.startsWith('//') ? raw : '/'
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()

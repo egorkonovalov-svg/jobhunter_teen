@@ -8,17 +8,22 @@ import { JOB_TYPES } from '@/lib/constants'
 async function toggleJobStatus(jobId: string, currentStatus: boolean) {
   'use server'
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/auth/login')
   await supabase
     .from('jobs')
     .update({ is_active: !currentStatus })
     .eq('id', jobId)
+    .eq('employer_id', user.id)
   revalidatePath('/dashboard')
 }
 
 async function deleteJob(jobId: string) {
   'use server'
   const supabase = await createClient()
-  await supabase.from('jobs').delete().eq('id', jobId)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/auth/login')
+  await supabase.from('jobs').delete().eq('id', jobId).eq('employer_id', user.id)
   revalidatePath('/dashboard')
 }
 
