@@ -10,6 +10,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Custom design tokens */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-accent: #06B6D4;
+  --color-surface: #FFFFFF;
+  --color-muted: #64748B;
+  --color-bg: #F8FAFC;
 }
 
 @media (prefers-color-scheme: dark) {
