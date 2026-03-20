@@ -9,11 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: { DEFAULT: '#4F46E5', hover: '#4338CA' },
-        accent: { DEFAULT: '#06B6D4' },
-        surface: '#FFFFFF',
-        muted: '#64748B',
-        bg: '#F8FAFC',
+        midnight: '#0F1419',
+        navy: '#1A1F2E',
+        gold: { DEFAULT: '#C9A96E', hover: '#B8944F' },
+        teal: { DEFAULT: '#2A5C5C', light: '#E8F0F0' },
+        'warm-white': '#FAF9F7',
+        'warm-gray': '#F2F1EF',
+        border: '#E8E6E1',
+        'text-secondary': '#6B6560',
+        'text-tertiary': '#9C9690',
       },
     },
   },

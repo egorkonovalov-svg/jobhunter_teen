@@ -104,11 +104,11 @@ export default function PostJobPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Разместить вакансию</h1>
-        <p className="text-gray-500 mt-1">Найдите сотрудников среди подростков 14–18 лет</p>
+        <h1 className="heading-display text-2xl font-bold text-midnight">Разместить вакансию</h1>
+        <p className="text-text-secondary mt-2">Найдите сотрудников среди подростков 14–18 лет</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-white border border-border rounded-lg p-8 space-y-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
         <Input
           label="Название вакансии *"
           type="text"
@@ -128,13 +128,13 @@ export default function PostJobPage() {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Город *</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Город *</label>
             <select
               value={city}
               onChange={e => setCity(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+              className="w-full px-3 py-2.5 bg-white border border-border rounded-lg text-midnight focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300"
             >
               <option value="">Выберите город</option>
               {CITIES.map(c => (
@@ -143,13 +143,13 @@ export default function PostJobPage() {
             </select>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Категория *</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Категория *</label>
             <select
               value={category}
               onChange={e => setCategory(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+              className="w-full px-3 py-2.5 bg-white border border-border rounded-lg text-midnight focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300"
             >
               <option value="">Выберите категорию</option>
               {CATEGORIES.map(c => (
@@ -161,15 +161,15 @@ export default function PostJobPage() {
 
         {/* Job Type */}
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Тип работы *</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-2">Тип работы *</p>
           <div className="flex gap-3">
             {(Object.entries(JOB_TYPES) as [string, string][]).map(([value, label]) => (
               <label
                 key={value}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border-2 rounded-lg cursor-pointer text-sm font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border-2 rounded-lg cursor-pointer text-sm font-medium transition-all duration-300 ${
                   type === value
-                    ? 'border-[#4F46E5] bg-indigo-50 text-[#4F46E5]'
-                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                    ? 'border-midnight bg-midnight text-white'
+                    : 'border-border text-text-secondary hover:border-midnight/30'
                 }`}
               >
                 <input
@@ -188,7 +188,7 @@ export default function PostJobPage() {
 
         {/* Salary */}
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Зарплата (₽/мес, необязательно)</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-2">Зарплата (₽/мес, необязательно)</p>
           <div className="flex items-center gap-3">
             <input
               type="number"
@@ -196,23 +196,23 @@ export default function PostJobPage() {
               value={salaryMin}
               onChange={e => setSalaryMin(e.target.value)}
               min={0}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+              className="flex-1 px-3 py-2.5 bg-white border border-border rounded-lg text-midnight focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300"
             />
-            <span className="text-gray-400">—</span>
+            <span className="text-text-tertiary">—</span>
             <input
               type="number"
               placeholder="До"
               value={salaryMax}
               onChange={e => setSalaryMax(e.target.value)}
               min={0}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+              className="flex-1 px-3 py-2.5 bg-white border border-border rounded-lg text-midnight focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300"
             />
           </div>
         </div>
 
         {/* Description */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
             Описание вакансии *
           </label>
           <textarea
@@ -221,14 +221,14 @@ export default function PostJobPage() {
             required
             rows={6}
             placeholder="Опишите обязанности, требования, условия работы. Поддерживает markdown-форматирование."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-y"
+            className="w-full px-3 py-2.5 bg-white border border-border rounded-lg text-midnight placeholder-text-tertiary focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight resize-y transition-all duration-300"
           />
-          <p className="text-xs text-gray-400">Поддерживает Markdown: **жирный**, *курсив*, - списки</p>
+          <p className="text-xs text-text-tertiary">Поддерживает Markdown: **жирный**, *курсив*, - списки</p>
         </div>
 
         {/* Contact Info */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
             Контактная информация *
           </label>
           <textarea
@@ -237,12 +237,12 @@ export default function PostJobPage() {
             required
             rows={3}
             placeholder="Телефон, email, Telegram (@username) или другой способ связи"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-none"
+            className="w-full px-3 py-2.5 bg-white border border-border rounded-lg text-midnight placeholder-text-tertiary focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight resize-none transition-all duration-300"
           />
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
+          <div className="bg-red-50 border border-red-100 text-red-800 rounded-lg px-4 py-3 text-sm">
             {error}
           </div>
         )}
@@ -255,7 +255,7 @@ export default function PostJobPage() {
           >
             Отмена
           </Button>
-          <Button type="submit" disabled={loading} className="flex-1">
+          <Button type="submit" variant="accent" disabled={loading} className="flex-1">
             {loading ? 'Публикуем...' : 'Опубликовать вакансию'}
           </Button>
         </div>

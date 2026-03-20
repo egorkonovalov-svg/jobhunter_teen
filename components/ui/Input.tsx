@@ -9,15 +9,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className, ...props }, ref) => {
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         {label && (
-          <label className="text-sm font-medium text-gray-700">{label}</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">{label}</label>
         )}
         <input
           ref={ref}
           className={clsx(
-            'w-full px-3 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-colors',
-            error ? 'border-red-500' : 'border-gray-300',
+            'w-full px-3 py-2.5 bg-white border rounded-lg text-midnight placeholder-text-tertiary focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300',
+            error ? 'border-red-500' : 'border-border',
             className
           )}
           {...props}

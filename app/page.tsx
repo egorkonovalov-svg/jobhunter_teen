@@ -2,23 +2,10 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { CATEGORIES, JOB_TYPES } from '@/lib/constants'
 
-const CATEGORY_ICONS: Record<string, string> = {
-  'IT и технологии': '💻',
-  'Курьер и доставка': '🚴',
-  'Промоутер': '📣',
-  'Репетиторство': '📚',
-  'Творчество и дизайн': '🎨',
-  'Общепит': '🍕',
-  'Торговля': '🛍️',
-  'Спорт и фитнес': '⚽',
-  'Уход за животными': '🐾',
-  'Другое': '💼',
-}
-
-const TYPE_COLORS: Record<string, string> = {
-  internship: 'bg-indigo-100 text-indigo-700',
-  'part-time': 'bg-cyan-100 text-cyan-700',
-  gig: 'bg-green-100 text-green-700',
+const TYPE_BADGE: Record<string, string> = {
+  internship: 'bg-teal-light text-teal border border-teal/20',
+  'part-time': 'bg-amber-50 text-amber-800 border border-amber-200/50',
+  gig: 'bg-stone-100 text-stone-700 border border-stone-200/50',
 }
 
 export default async function HomePage() {
@@ -35,94 +22,94 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+      <section className="bg-navy text-white py-24 lg:py-32 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(201,169,110,0.08),transparent_70%)]" />
+        <div className="max-w-4xl mx-auto text-center relative">
+          <h1 className="heading-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.05] tracking-tight">
             Найди свою первую работу
           </h1>
-          <p className="text-xl text-indigo-200 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 mb-10 max-w-xl mx-auto leading-relaxed">
             Стажировки, подработки и разовые задания для подростков 14–18 лет по всей России
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
             <Link
               href="/jobs"
-              className="flex-1 px-6 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors text-center"
+              className="px-8 py-3.5 bg-gold text-midnight rounded-lg font-semibold hover:bg-gold-hover hover:scale-[1.02] transition-all duration-300 text-center"
             >
-              Найти вакансию →
+              Найти вакансии
             </Link>
             <Link
               href="/post-job"
-              className="flex-1 px-6 py-3 border-2 border-white text-white rounded-xl font-semibold hover:bg-white/10 transition-colors text-center"
+              className="px-8 py-3.5 border border-white/30 text-white rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 text-center"
             >
-              Разместить вакансию
+              Для работодателей
             </Link>
           </div>
         </div>
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-white border-b border-gray-100 py-4">
+      <section className="bg-warm-white border-y border-border py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-6 text-center">
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">1 200+</span>
-              <span className="text-sm">вакансий</span>
+          <div className="grid grid-cols-3 divide-x divide-border text-center">
+            <div className="px-4">
+              <p className="heading-display text-3xl font-bold text-midnight">1 200+</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mt-1">вакансий</p>
             </div>
-            <div className="w-px bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">50+</span>
-              <span className="text-sm">городов</span>
+            <div className="px-4">
+              <p className="heading-display text-3xl font-bold text-midnight">50+</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mt-1">городов</p>
             </div>
-            <div className="w-px bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">Для 14–18 лет</span>
+            <div className="px-4">
+              <p className="heading-display text-3xl font-bold text-midnight">14–18</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mt-1">лет</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Jobs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Свежие вакансии</h2>
-          <Link href="/jobs" className="text-indigo-600 hover:text-indigo-700 font-medium text-sm">
-            Все вакансии →
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-end justify-between mb-10">
+          <h2 className="heading-display text-3xl font-bold text-midnight">Свежие вакансии</h2>
+          <Link href="/jobs" className="text-sm font-medium text-gold hover:text-gold-hover link-underline transition-colors duration-300">
+            Смотреть все →
           </Link>
         </div>
 
         {jobs.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            <p className="text-lg">Вакансии скоро появятся!</p>
-            <p className="text-sm mt-1">Станьте первым работодателем на платформе</p>
-            <Link href="/post-job" className="mt-4 inline-block text-indigo-600 font-medium hover:underline">
+          <div className="text-center py-16 text-text-secondary">
+            <p className="text-lg">Вакансии скоро появятся</p>
+            <p className="text-sm mt-2 text-text-tertiary">Станьте первым работодателем на платформе</p>
+            <Link href="/post-job" className="mt-6 inline-block text-gold font-medium hover:text-gold-hover link-underline transition-colors duration-300">
               Разместить вакансию →
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobs.map(job => (
               <Link
                 key={job.id}
                 href={`/jobs/${job.id}`}
-                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group"
+                className="bg-white border border-border rounded-lg p-5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-lg font-bold text-indigo-600">
+                  <div className="w-10 h-10 bg-midnight text-white rounded-lg flex items-center justify-center text-sm font-bold">
                     {job.company.charAt(0)}
                   </div>
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_COLORS[job.type] ?? 'bg-gray-100 text-gray-700'}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${TYPE_BADGE[job.type] ?? 'bg-warm-gray text-text-secondary border border-border'}`}>
                     {JOB_TYPES[job.type] ?? job.type}
                   </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors mb-1">
+                <h3 className="font-semibold text-midnight mb-1 group-hover:underline decoration-gold/40 underline-offset-2">
                   {job.title}
                 </h3>
-                <p className="text-sm text-gray-500 mb-3">{job.company}</p>
-                <div className="flex items-center gap-3 text-xs text-gray-500">
-                  <span>📍 {job.city}</span>
+                <p className="text-xs text-text-secondary uppercase tracking-wider mb-3">{job.company}</p>
+                <div className="flex items-center gap-3 text-xs text-text-secondary">
+                  <span>{job.city}</span>
                   {job.salary_min && (
                     <span>
-                      💰 {job.salary_min.toLocaleString('ru')}
+                      {job.salary_min.toLocaleString('ru')}
                       {job.salary_max ? `–${job.salary_max.toLocaleString('ru')}` : '+'} ₽/мес
                     </span>
                   )}
@@ -134,9 +121,9 @@ export default async function HomePage() {
       </section>
 
       {/* Category Tiles */}
-      <section className="bg-white py-14">
+      <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="heading-display text-3xl font-bold text-midnight mb-10 text-center">
             Поиск по категориям
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -144,10 +131,9 @@ export default async function HomePage() {
               <Link
                 key={category}
                 href={`/jobs?category=${encodeURIComponent(category)}`}
-                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-center group"
+                className="flex flex-col items-center gap-3 p-6 rounded-lg border border-border bg-white hover:border-midnight/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 text-center group"
               >
-                <span className="text-3xl">{CATEGORY_ICONS[category] ?? '💼'}</span>
-                <span className="text-xs font-medium text-gray-700 group-hover:text-indigo-700">
+                <span className="text-xs font-semibold text-text-secondary group-hover:text-midnight uppercase tracking-wider leading-tight">
                   {category}
                 </span>
               </Link>
@@ -157,17 +143,17 @@ export default async function HomePage() {
       </section>
 
       {/* Employer CTA */}
-      <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-14 px-4">
+      <section className="bg-navy text-white py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-3">Ищете сотрудников?</h2>
-          <p className="text-indigo-200 text-lg mb-8">
+          <h2 className="heading-display text-3xl md:text-4xl font-bold mb-4 tracking-tight">Ищете сотрудников?</h2>
+          <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
             Разместите вакансию бесплатно и найдите мотивированных молодых специалистов
           </p>
           <Link
             href="/post-job"
-            className="inline-block px-8 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors"
+            className="inline-block px-8 py-3.5 bg-gold text-midnight rounded-lg font-semibold hover:bg-gold-hover hover:scale-[1.02] transition-all duration-300"
           >
-            Разместите вакансию бесплатно →
+            Разместите вакансию бесплатно
           </Link>
         </div>
       </section>

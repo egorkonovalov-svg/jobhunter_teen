@@ -27,11 +27,11 @@ export default function SearchBar() {
         value={query}
         onChange={e => setQuery(e.target.value)}
         placeholder="Найти вакансию..."
-        className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+        className="flex-1 px-5 py-3 bg-white border border-border rounded-lg text-midnight text-base placeholder-text-tertiary focus:outline-none focus:border-midnight focus:ring-1 focus:ring-midnight transition-all duration-300"
       />
       <button
         type="submit"
-        className="px-5 py-2.5 bg-[#4F46E5] text-white rounded-lg hover:bg-[#4338CA] font-medium transition-colors"
+        className="px-6 py-3 bg-midnight text-white rounded-lg hover:bg-navy font-medium transition-all duration-300 hover:scale-[1.02]"
       >
         Найти
       </button>

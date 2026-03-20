@@ -17,24 +17,24 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-xl border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-[#4F46E5]">Работа</span>
-            <span className="text-xl font-bold text-gray-900">Тинейджеров</span>
+          <Link href="/" className="flex items-center gap-1">
+            <span className="heading-display text-xl font-bold text-gold">Работа</span>
+            <span className="heading-display text-xl font-bold text-midnight tracking-tight">Тинейджеров</span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/jobs" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+          <nav className="hidden md:flex items-center gap-8">
+            <Link href="/jobs" className="text-sm font-medium text-text-secondary hover:text-midnight link-underline transition-colors duration-300">
               Вакансии
             </Link>
-            <Link href="/jobs?type=internship" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+            <Link href="/jobs?type=internship" className="text-sm font-medium text-text-secondary hover:text-midnight link-underline transition-colors duration-300">
               Стажировки
             </Link>
-            <Link href="/post-job" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+            <Link href="/post-job" className="text-sm font-medium text-text-secondary hover:text-midnight link-underline transition-colors duration-300">
               Разместить вакансию
             </Link>
           </nav>
@@ -43,19 +43,19 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="text-sm text-gray-600 hover:text-[#4F46E5] font-medium transition-colors"
+              className="text-sm text-text-secondary hover:text-midnight font-medium link-underline transition-colors duration-300"
             >
               Личный кабинет
             </Link>
             <Link
               href="/auth/login"
-              className="text-sm px-4 py-2 border border-[#4F46E5] text-[#4F46E5] rounded-lg hover:bg-indigo-50 font-medium transition-colors"
+              className="text-sm px-4 py-2 border border-midnight text-midnight rounded-lg hover:bg-midnight hover:text-white font-medium transition-all duration-300"
             >
               Войти
             </Link>
             <Link
               href="/auth/register"
-              className="text-sm px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-[#4338CA] font-medium transition-colors"
+              className="text-sm px-4 py-2 bg-midnight text-white rounded-lg hover:bg-navy font-medium transition-all duration-300"
             >
               Регистрация
             </Link>
@@ -63,7 +63,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900"
+            className="md:hidden p-2 rounded-md text-text-secondary hover:text-midnight"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Меню"
           >
@@ -81,24 +81,24 @@ export default function Header() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 space-y-3">
-            <Link href="/jobs" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+          <div className="md:hidden border-t border-border py-4 space-y-3">
+            <Link href="/jobs" className="block text-midnight hover:text-gold font-medium py-1" onClick={() => setMenuOpen(false)}>
               Вакансии
             </Link>
-            <Link href="/jobs?type=internship" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/jobs?type=internship" className="block text-midnight hover:text-gold font-medium py-1" onClick={() => setMenuOpen(false)}>
               Стажировки
             </Link>
-            <Link href="/post-job" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/post-job" className="block text-midnight hover:text-gold font-medium py-1" onClick={() => setMenuOpen(false)}>
               Разместить вакансию
             </Link>
-            <Link href="/dashboard" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/dashboard" className="block text-midnight hover:text-gold font-medium py-1" onClick={() => setMenuOpen(false)}>
               Личный кабинет
             </Link>
             <div className="flex gap-3 pt-2">
-              <Link href="/auth/login" className="flex-1 text-center px-4 py-2 border border-[#4F46E5] text-[#4F46E5] rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
+              <Link href="/auth/login" className="flex-1 text-center px-4 py-2 border border-midnight text-midnight rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
                 Войти
               </Link>
-              <Link href="/auth/register" className="flex-1 text-center px-4 py-2 bg-[#4F46E5] text-white rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
+              <Link href="/auth/register" className="flex-1 text-center px-4 py-2 bg-midnight text-white rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
                 Регистрация
               </Link>
             </div>
