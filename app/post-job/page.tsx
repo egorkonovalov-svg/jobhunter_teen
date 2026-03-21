@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, FormEvent, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, CATEGORIES, JOB_TYPES } from '@/lib/constants'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { createJob, type CreateJobResult } from './actions'
 
 interface Profile {
   id: string
@@ -17,9 +18,10 @@ interface Profile {
 
 export default function PostJobPage() {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
 
   const [title, setTitle] = useState('')
   const [company, setCompany] = useState('')
@@ -62,43 +64,30 @@ export default function PostJobPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
+    setFieldErrors({})
 
-    if (!title || !company || !city || !category || !contactInfo || !description) {
-      setError('Пожалуйста, заполните все обязательные поля')
-      return
-    }
+    const fd = new FormData()
+    fd.append('title', title)
+    fd.append('company', company)
+    fd.append('city', city)
+    fd.append('category', category)
+    fd.append('type', type)
+    if (salaryMin) fd.append('salary_min', salaryMin)
+    if (salaryMax) fd.append('salary_max', salaryMax)
+    fd.append('description', description)
+    fd.append('contact_info', contactInfo)
 
-    setLoading(true)
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) {
-      router.push('/auth/login')
-      return
-    }
-
-    const { error: insertError } = await supabase.from('jobs').insert({
-      employer_id: user.id,
-      title,
-      company,
-      city,
-      category,
-      type,
-      salary_min: salaryMin ? parseInt(salaryMin) : null,
-      salary_max: salaryMax ? parseInt(salaryMax) : null,
-      description,
-      contact_info: contactInfo,
-      is_active: true,
+    startTransition(async () => {
+      const result = await createJob(fd)
+      if (!result.success) {
+        if ('fieldErrors' in result) {
+          setFieldErrors(result.fieldErrors)
+        } else {
+          setError(result.error)
+        }
+      }
+      // On success, redirect() in the server action handles navigation
     })
-
-    if (insertError) {
-      setError('Ошибка при публикации вакансии. Попробуйте позже.')
-      setLoading(false)
-      return
-    }
-
-    router.push('/dashboard')
-    router.refresh()
   }
 
   return (
@@ -109,23 +98,33 @@ export default function PostJobPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
-        <Input
-          label="Название вакансии *"
-          type="text"
-          placeholder="Например: Курьер на велосипеде"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          required
-        />
+        <div className="flex flex-col gap-1">
+          <Input
+            label="Название вакансии *"
+            type="text"
+            placeholder="Например: Курьер на велосипеде"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+          />
+          {fieldErrors.title && (
+            <p className="text-xs text-red-600">{fieldErrors.title[0]}</p>
+          )}
+        </div>
 
-        <Input
-          label="Компания *"
-          type="text"
-          placeholder="Название компании или ИП"
-          value={company}
-          onChange={e => setCompany(e.target.value)}
-          required
-        />
+        <div className="flex flex-col gap-1">
+          <Input
+            label="Компания *"
+            type="text"
+            placeholder="Название компании или ИП"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+            required
+          />
+          {fieldErrors.company && (
+            <p className="text-xs text-red-600">{fieldErrors.company[0]}</p>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">
@@ -141,6 +140,9 @@ export default function PostJobPage() {
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+            {fieldErrors.city && (
+              <p className="text-xs text-red-600">{fieldErrors.city[0]}</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
@@ -156,6 +158,9 @@ export default function PostJobPage() {
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+            {fieldErrors.category && (
+              <p className="text-xs text-red-600">{fieldErrors.category[0]}</p>
+            )}
           </div>
         </div>
 
@@ -208,6 +213,11 @@ export default function PostJobPage() {
               className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
             />
           </div>
+          {(fieldErrors.salary_min || fieldErrors.salary_max) && (
+            <p className="text-xs text-red-600 mt-1">
+              {fieldErrors.salary_max?.[0] || fieldErrors.salary_min?.[0]}
+            </p>
+          )}
         </div>
 
         {/* Description */}
@@ -223,6 +233,9 @@ export default function PostJobPage() {
             placeholder="Опишите обязанности, требования, условия работы. Поддерживает markdown-форматирование."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-y"
           />
+          {fieldErrors.description && (
+            <p className="text-xs text-red-600">{fieldErrors.description[0]}</p>
+          )}
           <p className="text-xs text-gray-400">Поддерживает Markdown: **жирный**, *курсив*, - списки</p>
         </div>
 
@@ -239,6 +252,9 @@ export default function PostJobPage() {
             placeholder="Телефон, email, Telegram (@username) или другой способ связи"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-none"
           />
+          {fieldErrors.contact_info && (
+            <p className="text-xs text-red-600">{fieldErrors.contact_info[0]}</p>
+          )}
         </div>
 
         {error && (
@@ -252,11 +268,12 @@ export default function PostJobPage() {
             type="button"
             variant="secondary"
             onClick={() => router.back()}
+            disabled={isPending}
           >
             Отмена
           </Button>
-          <Button type="submit" disabled={loading} className="flex-1">
-            {loading ? 'Публикуем...' : 'Опубликовать вакансию'}
+          <Button type="submit" disabled={isPending} className="flex-1">
+            {isPending ? 'Публикуем...' : 'Опубликовать вакансию'}
           </Button>
         </div>
       </form>
