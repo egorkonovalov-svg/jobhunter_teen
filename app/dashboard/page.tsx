@@ -10,11 +10,17 @@ async function toggleJobStatus(jobId: string, currentStatus: boolean) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/auth/login')
-  await supabase
+  const { error } = await supabase
     .from('jobs')
     .update({ is_active: !currentStatus })
     .eq('id', jobId)
     .eq('employer_id', user.id)
+
+  if (error) {
+    console.error('[toggleJobStatus] error:', error.message)
+    throw new Error('Не удалось изменить статус вакансии')
+  }
+
   revalidatePath('/dashboard')
 }
 
@@ -23,7 +29,13 @@ async function deleteJob(jobId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/auth/login')
-  await supabase.from('jobs').delete().eq('id', jobId).eq('employer_id', user.id)
+  const { error } = await supabase.from('jobs').delete().eq('id', jobId).eq('employer_id', user.id)
+
+  if (error) {
+    console.error('[deleteJob] error:', error.message)
+    throw new Error('Не удалось удалить вакансию')
+  }
+
   revalidatePath('/dashboard')
 }
 
