@@ -135,18 +135,22 @@ export default async function JobDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {job.contact_info.includes('@') ? (
-              <a
-                href={`mailto:${job.contact_info.trim()}`}
-                className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors"
-              >
-                Откликнуться по email
-              </a>
-            ) : (
-              <div className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold opacity-90 select-all cursor-pointer text-sm text-center">
-                {job.contact_info}
-              </div>
-            )}
+            {(() => {
+              const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+              const emailAddress = EMAIL_REGEX.test(job.contact_info.trim()) ? job.contact_info.trim() : null
+              return emailAddress ? (
+                <a
+                  href={`mailto:${emailAddress}`}
+                  className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors"
+                >
+                  Откликнуться по email
+                </a>
+              ) : (
+                <div className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold opacity-90 select-all cursor-pointer text-sm text-center">
+                  {job.contact_info}
+                </div>
+              )
+            })()}
 
             <p className="text-xs text-gray-400 mt-3 text-center">
               Свяжитесь с работодателем напрямую
