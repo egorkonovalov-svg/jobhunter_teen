@@ -73,15 +73,15 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Личный кабинет</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-midnight heading-display">Личный кабинет</h1>
+          <p className="text-text-secondary mt-1">
             {profile?.company_name ?? profile?.name ?? 'Работодатель'} ·{' '}
-            <span className="text-indigo-600">{activeCount} активных</span> из {totalCount} вакансий
+            <span className="text-gold">{activeCount} активных</span> из {totalCount} вакансий
           </p>
         </div>
         <Link
           href="/post-job"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors whitespace-nowrap"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold text-white rounded-lg font-semibold hover:bg-gold-hover transition-all duration-300 whitespace-nowrap"
         >
           + Разместить ещё вакансию
         </Link>
@@ -89,13 +89,12 @@ export default async function DashboardPage() {
 
       {/* Jobs List */}
       {!jobs || jobs.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <div className="text-5xl mb-4">📋</div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">У вас пока нет вакансий</h3>
-          <p className="text-gray-500 mb-6">Разместите первую вакансию и найдите сотрудников</p>
+        <div className="bg-white border border-border rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-12 text-center">
+          <h3 className="text-lg font-semibold text-midnight mb-2 heading-display">У вас пока нет вакансий</h3>
+          <p className="text-text-secondary mb-6">Разместите первую вакансию и найдите сотрудников</p>
           <Link
             href="/post-job"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#4F46E5] text-white rounded-lg font-semibold hover:bg-[#4338CA] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-white rounded-lg font-semibold hover:bg-gold-hover transition-all duration-300"
           >
             Разместить вакансию
           </Link>
@@ -105,14 +104,14 @@ export default async function DashboardPage() {
           {jobs.map(job => (
             <div
               key={job.id}
-              className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col sm:flex-row sm:items-center gap-4"
+              className="bg-white border border-border rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 flex flex-col sm:flex-row sm:items-center gap-4"
             >
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <Link
                     href={`/jobs/${job.id}`}
-                    className="font-semibold text-gray-900 hover:text-indigo-700 transition-colors"
+                    className="font-semibold text-midnight hover:text-gold transition-all duration-300"
                   >
                     {job.title}
                   </Link>
@@ -123,7 +122,7 @@ export default async function DashboardPage() {
                     {JOB_TYPES[job.type] ?? job.type}
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-text-secondary">
                   {job.city} · {job.category} · Опубликовано: {formatDate(job.created_at)}
                 </p>
               </div>
@@ -133,10 +132,10 @@ export default async function DashboardPage() {
                 <form action={toggleJobStatus.bind(null, job.id, job.is_active)}>
                   <button
                     type="submit"
-                    className={`text-sm px-3 py-1.5 rounded-lg font-medium border transition-colors ${
+                    className={`text-sm px-3 py-1.5 rounded-lg font-medium border transition-all duration-300 ${
                       job.is_active
-                        ? 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                        : 'border-indigo-300 text-indigo-600 hover:bg-indigo-50'
+                        ? 'border-border text-text-secondary hover:bg-warm-gray'
+                        : 'border-gold text-gold hover:bg-gold/5'
                     }`}
                   >
                     {job.is_active ? 'Скрыть' : 'Активировать'}
@@ -146,7 +145,7 @@ export default async function DashboardPage() {
                 <form action={deleteJob.bind(null, job.id)}>
                   <button
                     type="submit"
-                    className="text-sm px-3 py-1.5 rounded-lg font-medium border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+                    className="text-sm px-3 py-1.5 rounded-lg font-medium border border-red-200 text-red-600 hover:bg-red-50 transition-all duration-300"
                   >
                     Удалить
                   </button>

@@ -1,11 +1,18 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Space_Grotesk, Manrope } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+})
+
+const manrope = Manrope({
   subsets: ['latin', 'cyrillic'],
+  variable: '--font-manrope',
   display: 'swap',
 })
 
@@ -26,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={inter.className}>
-      <body className="bg-[#F8FAFC] min-h-screen flex flex-col">
+    <html lang="ru" className={`${spaceGrotesk.variable} ${manrope.variable}`}>
+      <body className="bg-warm-white min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">
           {children}

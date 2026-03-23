@@ -17,24 +17,24 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-lg border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-[#4F46E5]">Работа</span>
-            <span className="text-xl font-bold text-gray-900">Тинейджеров</span>
+            <span className="text-xl font-bold text-gold heading-display">Работа</span>
+            <span className="text-xl font-bold text-midnight heading-display">Тинейджеров</span>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/jobs" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+            <Link href="/jobs" className="text-text-secondary hover:text-gold font-medium transition-all duration-300 link-underline">
               Вакансии
             </Link>
-            <Link href="/jobs?type=internship" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+            <Link href="/jobs?type=internship" className="text-text-secondary hover:text-gold font-medium transition-all duration-300 link-underline">
               Стажировки
             </Link>
-            <Link href="/post-job" className="text-gray-600 hover:text-[#4F46E5] font-medium transition-colors">
+            <Link href="/post-job" className="text-text-secondary hover:text-gold font-medium transition-all duration-300 link-underline">
               Разместить вакансию
             </Link>
           </nav>
@@ -43,19 +43,19 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="text-sm text-gray-600 hover:text-[#4F46E5] font-medium transition-colors"
+              className="text-sm text-text-secondary hover:text-gold font-medium transition-all duration-300 link-underline"
             >
               Личный кабинет
             </Link>
             <Link
               href="/auth/login"
-              className="text-sm px-4 py-2 border border-[#4F46E5] text-[#4F46E5] rounded-lg hover:bg-indigo-50 font-medium transition-colors"
+              className="text-sm px-4 py-2 border border-gold text-gold rounded-lg hover:bg-gold/5 font-medium transition-all duration-300"
             >
               Войти
             </Link>
             <Link
               href="/auth/register"
-              className="text-sm px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-[#4338CA] font-medium transition-colors"
+              className="text-sm px-4 py-2 bg-gold text-white rounded-lg hover:bg-gold-hover font-medium transition-all duration-300"
             >
               Регистрация
             </Link>
@@ -63,7 +63,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900"
+            className="md:hidden p-2 rounded-md text-text-secondary hover:text-midnight"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Меню"
           >
@@ -81,24 +81,24 @@ export default function Header() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 space-y-3">
-            <Link href="/jobs" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+          <div className="md:hidden border-t border-border py-4 space-y-3">
+            <Link href="/jobs" className="block text-midnight hover:text-gold font-medium py-1 transition-all duration-300" onClick={() => setMenuOpen(false)}>
               Вакансии
             </Link>
-            <Link href="/jobs?type=internship" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/jobs?type=internship" className="block text-midnight hover:text-gold font-medium py-1 transition-all duration-300" onClick={() => setMenuOpen(false)}>
               Стажировки
             </Link>
-            <Link href="/post-job" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/post-job" className="block text-midnight hover:text-gold font-medium py-1 transition-all duration-300" onClick={() => setMenuOpen(false)}>
               Разместить вакансию
             </Link>
-            <Link href="/dashboard" className="block text-gray-700 hover:text-[#4F46E5] font-medium py-1" onClick={() => setMenuOpen(false)}>
+            <Link href="/dashboard" className="block text-midnight hover:text-gold font-medium py-1 transition-all duration-300" onClick={() => setMenuOpen(false)}>
               Личный кабинет
             </Link>
             <div className="flex gap-3 pt-2">
-              <Link href="/auth/login" className="flex-1 text-center px-4 py-2 border border-[#4F46E5] text-[#4F46E5] rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
+              <Link href="/auth/login" className="flex-1 text-center px-4 py-2 border border-gold text-gold rounded-lg text-sm font-medium transition-all duration-300" onClick={() => setMenuOpen(false)}>
                 Войти
               </Link>
-              <Link href="/auth/register" className="flex-1 text-center px-4 py-2 bg-[#4F46E5] text-white rounded-lg text-sm font-medium" onClick={() => setMenuOpen(false)}>
+              <Link href="/auth/register" className="flex-1 text-center px-4 py-2 bg-gold text-white rounded-lg hover:bg-gold-hover text-sm font-medium transition-all duration-300" onClick={() => setMenuOpen(false)}>
                 Регистрация
               </Link>
             </div>
