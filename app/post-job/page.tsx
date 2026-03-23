@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, FormEvent, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, CATEGORIES, JOB_TYPES } from '@/lib/constants'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { createJob, type CreateJobResult } from './actions'
 
 interface Profile {
   id: string
@@ -17,9 +18,10 @@ interface Profile {
 
 export default function PostJobPage() {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
 
   const [title, setTitle] = useState('')
   const [company, setCompany] = useState('')
@@ -62,114 +64,117 @@ export default function PostJobPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
+    setFieldErrors({})
 
-    if (!title || !company || !city || !category || !contactInfo || !description) {
-      setError('Пожалуйста, заполните все обязательные поля')
-      return
-    }
+    const fd = new FormData()
+    fd.append('title', title)
+    fd.append('company', company)
+    fd.append('city', city)
+    fd.append('category', category)
+    fd.append('type', type)
+    if (salaryMin) fd.append('salary_min', salaryMin)
+    if (salaryMax) fd.append('salary_max', salaryMax)
+    fd.append('description', description)
+    fd.append('contact_info', contactInfo)
 
-    setLoading(true)
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) {
-      router.push('/auth/login')
-      return
-    }
-
-    const { error: insertError } = await supabase.from('jobs').insert({
-      employer_id: user.id,
-      title,
-      company,
-      city,
-      category,
-      type,
-      salary_min: salaryMin ? parseInt(salaryMin) : null,
-      salary_max: salaryMax ? parseInt(salaryMax) : null,
-      description,
-      contact_info: contactInfo,
-      is_active: true,
+    startTransition(async () => {
+      const result = await createJob(fd)
+      if (!result.success) {
+        if ('fieldErrors' in result) {
+          setFieldErrors(result.fieldErrors)
+        } else {
+          setError(result.error)
+        }
+      }
+      // On success, redirect() in the server action handles navigation
     })
-
-    if (insertError) {
-      setError('Ошибка при публикации вакансии. Попробуйте позже.')
-      setLoading(false)
-      return
-    }
-
-    router.push('/dashboard')
-    router.refresh()
   }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Разместить вакансию</h1>
-        <p className="text-gray-500 mt-1">Найдите сотрудников среди подростков 14–18 лет</p>
+        <h1 className="text-2xl font-bold text-midnight heading-display">Разместить вакансию</h1>
+        <p className="text-text-secondary mt-1">Найдите сотрудников среди подростков 14–18 лет</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
-        <Input
-          label="Название вакансии *"
-          type="text"
-          placeholder="Например: Курьер на велосипеде"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          required
-        />
+      <form onSubmit={handleSubmit} className="bg-white border border-border rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6 space-y-5">
+        <div className="flex flex-col gap-1">
+          <Input
+            label="Название вакансии *"
+            type="text"
+            placeholder="Например: Курьер на велосипеде"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+          />
+          {fieldErrors.title && (
+            <p className="text-xs text-red-600">{fieldErrors.title[0]}</p>
+          )}
+        </div>
 
-        <Input
-          label="Компания *"
-          type="text"
-          placeholder="Название компании или ИП"
-          value={company}
-          onChange={e => setCompany(e.target.value)}
-          required
-        />
+        <div className="flex flex-col gap-1">
+          <Input
+            label="Компания *"
+            type="text"
+            placeholder="Название компании или ИП"
+            value={company}
+            onChange={e => setCompany(e.target.value)}
+            required
+          />
+          {fieldErrors.company && (
+            <p className="text-xs text-red-600">{fieldErrors.company[0]}</p>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Город *</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Город *</label>
             <select
               value={city}
               onChange={e => setCity(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+              className="w-full px-3 py-2 border border-border rounded-lg text-midnight focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
             >
               <option value="">Выберите город</option>
               {CITIES.map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+            {fieldErrors.city && (
+              <p className="text-xs text-red-600">{fieldErrors.city[0]}</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Категория *</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Категория *</label>
             <select
               value={category}
               onChange={e => setCategory(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+              className="w-full px-3 py-2 border border-border rounded-lg text-midnight focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
             >
               <option value="">Выберите категорию</option>
               {CATEGORIES.map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+            {fieldErrors.category && (
+              <p className="text-xs text-red-600">{fieldErrors.category[0]}</p>
+            )}
           </div>
         </div>
 
         {/* Job Type */}
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Тип работы *</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-2">Тип работы *</p>
           <div className="flex gap-3">
             {(Object.entries(JOB_TYPES) as [string, string][]).map(([value, label]) => (
               <label
                 key={value}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border-2 rounded-lg cursor-pointer text-sm font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border-2 rounded-lg cursor-pointer text-sm font-medium transition-all duration-300 ${
                   type === value
-                    ? 'border-[#4F46E5] bg-indigo-50 text-[#4F46E5]'
-                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                    ? 'border-gold bg-gold/5 text-gold'
+                    : 'border-border text-text-secondary hover:border-border/80'
                 }`}
               >
                 <input
@@ -188,7 +193,7 @@ export default function PostJobPage() {
 
         {/* Salary */}
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Зарплата (₽/мес, необязательно)</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary mb-2">Зарплата (₽/мес, необязательно)</p>
           <div className="flex items-center gap-3">
             <input
               type="number"
@@ -196,23 +201,28 @@ export default function PostJobPage() {
               value={salaryMin}
               onChange={e => setSalaryMin(e.target.value)}
               min={0}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+              className="flex-1 px-3 py-2 border border-border rounded-lg text-midnight focus:outline-none focus:ring-2 focus:ring-gold transition-all duration-300"
             />
-            <span className="text-gray-400">—</span>
+            <span className="text-text-tertiary">—</span>
             <input
               type="number"
               placeholder="До"
               value={salaryMax}
               onChange={e => setSalaryMax(e.target.value)}
               min={0}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+              className="flex-1 px-3 py-2 border border-border rounded-lg text-midnight focus:outline-none focus:ring-2 focus:ring-gold transition-all duration-300"
             />
           </div>
+          {(fieldErrors.salary_min || fieldErrors.salary_max) && (
+            <p className="text-xs text-red-600 mt-1">
+              {fieldErrors.salary_max?.[0] || fieldErrors.salary_min?.[0]}
+            </p>
+          )}
         </div>
 
         {/* Description */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
             Описание вакансии *
           </label>
           <textarea
@@ -221,14 +231,17 @@ export default function PostJobPage() {
             required
             rows={6}
             placeholder="Опишите обязанности, требования, условия работы. Поддерживает markdown-форматирование."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-y"
+            className="w-full px-3 py-2 border border-border rounded-lg text-midnight placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-gold resize-y transition-all duration-300"
           />
-          <p className="text-xs text-gray-400">Поддерживает Markdown: **жирный**, *курсив*, - списки</p>
+          {fieldErrors.description && (
+            <p className="text-xs text-red-600">{fieldErrors.description[0]}</p>
+          )}
+          <p className="text-xs text-text-tertiary">Поддерживает Markdown: **жирный**, *курсив*, - списки</p>
         </div>
 
         {/* Contact Info */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
             Контактная информация *
           </label>
           <textarea
@@ -237,8 +250,11 @@ export default function PostJobPage() {
             required
             rows={3}
             placeholder="Телефон, email, Telegram (@username) или другой способ связи"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-none"
+            className="w-full px-3 py-2 border border-border rounded-lg text-midnight placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-gold resize-none transition-all duration-300"
           />
+          {fieldErrors.contact_info && (
+            <p className="text-xs text-red-600">{fieldErrors.contact_info[0]}</p>
+          )}
         </div>
 
         {error && (
@@ -252,11 +268,12 @@ export default function PostJobPage() {
             type="button"
             variant="secondary"
             onClick={() => router.back()}
+            disabled={isPending}
           >
             Отмена
           </Button>
-          <Button type="submit" disabled={loading} className="flex-1">
-            {loading ? 'Публикуем...' : 'Опубликовать вакансию'}
+          <Button type="submit" variant="accent" disabled={isPending} className="flex-1">
+            {isPending ? 'Публикуем...' : 'Опубликовать вакансию'}
           </Button>
         </div>
       </form>

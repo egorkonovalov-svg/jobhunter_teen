@@ -63,36 +63,36 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-10">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
+    <div className="min-h-screen bg-warm-white flex items-center justify-center px-4 py-10">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] border border-border p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Создать аккаунт</h1>
-          <p className="text-gray-500 mt-1">Присоединяйся к РаботаТинейджеров</p>
+          <h1 className="text-2xl font-bold text-midnight heading-display">Создать аккаунт</h1>
+          <p className="text-text-secondary mt-1">Присоединяйся к РаботаТинейджеров</p>
         </div>
 
         {/* Role Toggle */}
-        <div className="flex rounded-lg border border-gray-200 overflow-hidden mb-6">
+        <div className="flex rounded-lg border border-border overflow-hidden mb-6">
           <button
             type="button"
-            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+            className={`flex-1 py-2.5 text-sm font-medium transition-all duration-300 ${
               role === 'teen'
-                ? 'bg-[#4F46E5] text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-gold text-white'
+                : 'bg-white text-text-secondary hover:bg-warm-gray'
             }`}
             onClick={() => setRole('teen')}
           >
-            🔍 Ищу работу
+            Ищу работу
           </button>
           <button
             type="button"
-            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+            className={`flex-1 py-2.5 text-sm font-medium transition-all duration-300 ${
               role === 'employer'
-                ? 'bg-[#4F46E5] text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+                ? 'bg-gold text-white'
+                : 'bg-white text-text-secondary hover:bg-warm-gray'
             }`}
             onClick={() => setRole('employer')}
           >
-            🏢 Я работодатель
+            Я работодатель
           </button>
         </div>
 
@@ -124,11 +124,11 @@ export default function RegisterPage() {
           />
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Город</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Город</label>
             <select
               value={city}
               onChange={e => setCity(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent"
+              className="w-full px-3 py-2 border border-border rounded-lg text-midnight focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
             >
               <option value="">Выберите город</option>
               {CITIES.map(c => (
@@ -154,14 +154,14 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <Button type="submit" size="lg" className="w-full mt-2" disabled={loading}>
+          <Button type="submit" variant="accent" size="lg" className="w-full mt-2" disabled={loading}>
             {loading ? 'Регистрируем...' : 'Создать аккаунт'}
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-text-secondary mt-6">
           Уже есть аккаунт?{' '}
-          <Link href="/auth/login" className="text-[#4F46E5] font-medium hover:underline">
+          <Link href="/auth/login" className="text-gold font-medium hover:underline transition-all duration-300">
             Войти
           </Link>
         </p>

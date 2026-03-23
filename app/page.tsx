@@ -2,23 +2,10 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { CATEGORIES, JOB_TYPES } from '@/lib/constants'
 
-const CATEGORY_ICONS: Record<string, string> = {
-  'IT и технологии': '💻',
-  'Курьер и доставка': '🚴',
-  'Промоутер': '📣',
-  'Репетиторство': '📚',
-  'Творчество и дизайн': '🎨',
-  'Общепит': '🍕',
-  'Торговля': '🛍️',
-  'Спорт и фитнес': '⚽',
-  'Уход за животными': '🐾',
-  'Другое': '💼',
-}
-
 const TYPE_COLORS: Record<string, string> = {
-  internship: 'bg-indigo-100 text-indigo-700',
-  'part-time': 'bg-cyan-100 text-cyan-700',
-  gig: 'bg-green-100 text-green-700',
+  internship: 'bg-teal-light text-teal',
+  'part-time': 'bg-[#FFF8ED] text-[#96722B]',
+  gig: 'bg-[#F0F0E8] text-[#5C5C2A]',
 }
 
 export default async function HomePage() {
@@ -35,24 +22,24 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white py-20 px-4">
+      <section className="bg-navy text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight heading-display">
             Найди свою первую работу
           </h1>
-          <p className="text-xl text-indigo-200 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/60 mb-8 max-w-2xl mx-auto">
             Стажировки, подработки и разовые задания для подростков 14–18 лет по всей России
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-xl mx-auto">
             <Link
               href="/jobs"
-              className="flex-1 px-6 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors text-center"
+              className="flex-1 px-6 py-3 bg-gold text-white rounded-xl font-semibold hover:bg-gold-hover transition-all duration-300 text-center"
             >
-              Найти вакансию →
+              Найти вакансию
             </Link>
             <Link
               href="/post-job"
-              className="flex-1 px-6 py-3 border-2 border-white text-white rounded-xl font-semibold hover:bg-white/10 transition-colors text-center"
+              className="flex-1 px-6 py-3 border-2 border-white/30 text-white rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 text-center"
             >
               Разместить вакансию
             </Link>
@@ -61,21 +48,21 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-white border-b border-gray-100 py-4">
+      <section className="bg-warm-gray border-b border-border py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-6 text-center">
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">1 200+</span>
+            <div className="flex items-center gap-2 text-text-secondary">
+              <span className="text-2xl font-bold text-gold heading-display">1 200+</span>
               <span className="text-sm">вакансий</span>
             </div>
-            <div className="w-px bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">50+</span>
+            <div className="w-px bg-border hidden sm:block" />
+            <div className="flex items-center gap-2 text-text-secondary">
+              <span className="text-2xl font-bold text-gold heading-display">50+</span>
               <span className="text-sm">городов</span>
             </div>
-            <div className="w-px bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-2xl font-bold text-indigo-600">Для 14–18 лет</span>
+            <div className="w-px bg-border hidden sm:block" />
+            <div className="flex items-center gap-2 text-text-secondary">
+              <span className="text-2xl font-bold text-gold heading-display">Для 14–18 лет</span>
             </div>
           </div>
         </div>
@@ -84,18 +71,18 @@ export default async function HomePage() {
       {/* Featured Jobs */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Свежие вакансии</h2>
-          <Link href="/jobs" className="text-indigo-600 hover:text-indigo-700 font-medium text-sm">
-            Все вакансии →
+          <h2 className="text-2xl font-bold text-midnight heading-display">Свежие вакансии</h2>
+          <Link href="/jobs" className="text-gold hover:text-gold-hover font-medium text-sm link-underline transition-all duration-300">
+            Все вакансии
           </Link>
         </div>
 
         {jobs.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-text-secondary">
             <p className="text-lg">Вакансии скоро появятся!</p>
             <p className="text-sm mt-1">Станьте первым работодателем на платформе</p>
-            <Link href="/post-job" className="mt-4 inline-block text-indigo-600 font-medium hover:underline">
-              Разместить вакансию →
+            <Link href="/post-job" className="mt-4 inline-block text-gold font-medium hover:underline transition-all duration-300">
+              Разместить вакансию
             </Link>
           </div>
         ) : (
@@ -104,25 +91,25 @@ export default async function HomePage() {
               <Link
                 key={job.id}
                 href={`/jobs/${job.id}`}
-                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group"
+                className="bg-white border border-border rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-lg font-bold text-indigo-600">
+                  <div className="w-10 h-10 bg-warm-gray rounded-lg flex items-center justify-center text-lg font-bold text-midnight">
                     {job.company.charAt(0)}
                   </div>
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_COLORS[job.type] ?? 'bg-gray-100 text-gray-700'}`}>
+                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_COLORS[job.type] ?? 'bg-warm-gray text-text-secondary'}`}>
                     {JOB_TYPES[job.type] ?? job.type}
                   </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors mb-1">
+                <h3 className="font-semibold text-midnight group-hover:text-gold transition-all duration-300 mb-1">
                   {job.title}
                 </h3>
-                <p className="text-sm text-gray-500 mb-3">{job.company}</p>
-                <div className="flex items-center gap-3 text-xs text-gray-500">
-                  <span>📍 {job.city}</span>
+                <p className="text-sm text-text-secondary mb-3">{job.company}</p>
+                <div className="flex items-center gap-3 text-xs text-text-secondary">
+                  <span>{job.city}</span>
                   {job.salary_min && (
                     <span>
-                      💰 {job.salary_min.toLocaleString('ru')}
+                      {job.salary_min.toLocaleString('ru')}
                       {job.salary_max ? `–${job.salary_max.toLocaleString('ru')}` : '+'} ₽/мес
                     </span>
                   )}
@@ -136,7 +123,7 @@ export default async function HomePage() {
       {/* Category Tiles */}
       <section className="bg-white py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl font-bold text-midnight mb-8 text-center heading-display">
             Поиск по категориям
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -144,10 +131,12 @@ export default async function HomePage() {
               <Link
                 key={category}
                 href={`/jobs?category=${encodeURIComponent(category)}`}
-                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-center group"
+                className="flex flex-col items-center gap-2 p-4 rounded-lg border border-border hover:border-gold hover:bg-gold/5 transition-all duration-300 text-center group"
               >
-                <span className="text-3xl">{CATEGORY_ICONS[category] ?? '💼'}</span>
-                <span className="text-xs font-medium text-gray-700 group-hover:text-indigo-700">
+                <span className="w-10 h-10 bg-warm-gray rounded-lg flex items-center justify-center text-lg font-bold text-midnight">
+                  {category.charAt(0)}
+                </span>
+                <span className="text-xs font-medium text-text-secondary group-hover:text-gold transition-all duration-300">
                   {category}
                 </span>
               </Link>
@@ -157,17 +146,17 @@ export default async function HomePage() {
       </section>
 
       {/* Employer CTA */}
-      <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-14 px-4">
+      <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-3">Ищете сотрудников?</h2>
-          <p className="text-indigo-200 text-lg mb-8">
+          <h2 className="text-3xl font-bold mb-3 heading-display">Ищете сотрудников?</h2>
+          <p className="text-white/60 text-lg mb-8">
             Разместите вакансию бесплатно и найдите мотивированных молодых специалистов
           </p>
           <Link
             href="/post-job"
-            className="inline-block px-8 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors"
+            className="inline-block px-8 py-3 bg-gold text-white rounded-xl font-semibold hover:bg-gold-hover transition-all duration-300"
           >
-            Разместите вакансию бесплатно →
+            Разместите вакансию бесплатно
           </Link>
         </div>
       </section>

@@ -12,11 +12,11 @@ export default function Badge({ children, variant = 'default', className }: Badg
       className={clsx(
         'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
         {
-          'bg-indigo-100 text-indigo-800': variant === 'internship',
-          'bg-cyan-100 text-cyan-800': variant === 'part-time',
-          'bg-green-100 text-green-800': variant === 'gig',
-          'bg-emerald-100 text-emerald-700': variant === 'active',
-          'bg-gray-100 text-gray-600': variant === 'inactive' || variant === 'default',
+          'bg-teal-light text-teal': variant === 'internship',
+          'bg-[#FFF8ED] text-[#96722B]': variant === 'part-time',
+          'bg-[#F0F0E8] text-[#5C5C2A]': variant === 'gig',
+          'bg-[#E8F0E8] text-[#2A5C2A]': variant === 'active',
+          'bg-warm-gray text-text-secondary': variant === 'inactive' || variant === 'default',
         },
         className
       )}

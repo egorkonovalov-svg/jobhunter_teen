@@ -37,11 +37,11 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
+    <div className="min-h-screen bg-warm-white flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] border border-border p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Вход в аккаунт</h1>
-          <p className="text-gray-500 mt-1">Рады видеть тебя снова!</p>
+          <h1 className="text-2xl font-bold text-midnight heading-display">Вход в аккаунт</h1>
+          <p className="text-text-secondary mt-1">Рады видеть тебя снова!</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -68,14 +68,14 @@ function LoginForm() {
             </div>
           )}
 
-          <Button type="submit" size="lg" className="w-full mt-2" disabled={loading}>
+          <Button type="submit" variant="accent" size="lg" className="w-full mt-2" disabled={loading}>
             {loading ? 'Входим...' : 'Войти'}
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-text-secondary mt-6">
           Ещё нет аккаунта?{' '}
-          <Link href="/auth/register" className="text-[#4F46E5] font-medium hover:underline">
+          <Link href="/auth/register" className="text-gold font-medium hover:underline transition-all duration-300">
             Зарегистрироваться
           </Link>
         </p>
