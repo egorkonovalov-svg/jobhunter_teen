@@ -23,7 +23,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <span className="text-xl font-bold text-gold heading-display">JobHunter</span>
-            <span className="text-xl font-bold text-midnight heading-display">-Teen</span>
+            <span className="text-xl font-bold text-midnight heading-display">- Teen</span>
           </Link>
 
           {/* Desktop Nav */}
