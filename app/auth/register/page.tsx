@@ -67,7 +67,7 @@ export default function RegisterPage() {
       <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] border border-border p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-midnight heading-display">Создать аккаунт</h1>
-          <p className="text-text-secondary mt-1">Присоединяйся к РаботаТинейджеров</p>
+          <p className="text-text-secondary mt-1">Присоединяйся к JobHunter-Teen</p>
         </div>
 
         {/* Role Toggle */}

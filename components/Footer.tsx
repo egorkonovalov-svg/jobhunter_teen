@@ -8,8 +8,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-1 mb-3">
-              <span className="text-lg font-bold text-gold heading-display">Работа</span>
-              <span className="text-lg font-bold text-white heading-display">Тинейджеров</span>
+              <span className="text-lg font-bold text-gold heading-display">JobHunter</span>
+              <span className="text-lg font-bold text-white heading-display">-Teen</span>
             </div>
             <p className="text-sm text-white/60">
               Работа для подростков 14–18 лет по всей России
@@ -49,7 +49,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/10 text-center text-sm text-white/40">
-          Для 14–18 лет | Россия | © {new Date().getFullYear()} РаботаТинейджеров
+          Для 14–18 лет | Россия | © {new Date().getFullYear()} JobHunter-Teen
         </div>
       </div>
     </footer>

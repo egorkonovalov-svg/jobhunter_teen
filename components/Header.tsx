@@ -22,8 +22,8 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-gold heading-display">Работа</span>
-            <span className="text-xl font-bold text-midnight heading-display">Тинейджеров</span>
+            <span className="text-xl font-bold text-gold heading-display">JobHunter</span>
+            <span className="text-xl font-bold text-midnight heading-display">-Teen</span>
           </Link>
 
           {/* Desktop Nav */}
