@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!job) return { title: 'Вакансия не найдена' }
 
   return {
-    title: `${job.title} — ${job.company} | РаботаТинейджеров`,
+    title: `${job.title} — ${job.company} | JobHunter-Teen`,
     description: `Вакансия "${job.title}" в ${job.company}, ${job.city}. Работа для подростков.`,
   }
 }
